@@ -8,12 +8,13 @@ namespace Blocks
     {
         public static BlockBase Instance;
         public bool IsGrabbed = false;
+        public bool IsInGroup = false;
 
 
        // public List<GameObject> pivots = new List<GameObject>();//(pivot,connectedPivot)
         public List<GameObject> surfaceWithPivots = new List<GameObject>();
         public Dictionary<GameObject, GameObject> JointInformation = new Dictionary<GameObject, GameObject>();
-        
+        /*jointInformation<this.pivot_name,other.pivot_name>*/
         /*ForPivotCollider*/
         public GameObject connectableObject;
         public bool IsConnectable;
@@ -225,15 +226,23 @@ namespace Blocks
             }
         }
 
-        /**一応残し**/
+       
         public void AutoConnect()
         {
             if (connectableObject != null && connectablePivot != null)
             {
                 this.gameObject.AddComponent<JointObjects>().Joint(connectablePivot, connectableObject);
-               // Destroy(this.gameObject.GetComponent<JointObjects>());
+                Destroy(this.gameObject.GetComponent<JointObjects>());        
             }
         }
+
+        public void ResetConnectable()
+        {
+            connectableObject = null;
+            connectablePivot = null;
+            IsConnectable = false;
+        }
+        /**一応残し**/
         public void AutoMove()
         {
 

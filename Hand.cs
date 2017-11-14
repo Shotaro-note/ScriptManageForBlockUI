@@ -128,7 +128,7 @@ public class Hand : MonoBehaviour
         {
             if (Selected_R == null && (Selected_L == null || Selected_L != go))
             {
-                Debug.Log("activate");
+                //Debug.Log("activate");
                 Selected_R = go;
 
                 InitialBlockPosition_R = go.transform.position;
@@ -201,7 +201,7 @@ public class Hand : MonoBehaviour
                     jointR = Selected_R.AddComponent<FixedJoint>().connectedBody = Palm_r.GetComponent<Rigidbody>();
                 }
             }
-            Debug.Log(jointR);
+            //Debug.Log(jointR);
             canMove_R = true;
             HapticExample.PlaySE(true);
             AudioSource.PlayClipAtPoint(grab_sound, Selected_R.transform.position, 0.5f);
@@ -270,7 +270,7 @@ public class Hand : MonoBehaviour
                 }
             }
             Selected_R.GetComponent<BlockBase>().AutoConnect();
-            Selected_R.GetComponent<BlockBase>().AutoMove();
+            //Selected_R.GetComponent<BlockBase>().AutoMove();
             Selected_R = null;
         }
        
@@ -295,7 +295,8 @@ public class Hand : MonoBehaviour
                     jointL = null;
                 }               
             }
-            Selected_L.GetComponent<BlockBase>().AutoMove();
+            Selected_L.GetComponent<BlockBase>().AutoConnect();
+            //Selected_L.GetComponent<BlockBase>().AutoMove();
             Selected_L = null;
         }
         /*else if (Selected_L != null && Selected_L.layer == LayerMask.NameToLayer("Photo"))

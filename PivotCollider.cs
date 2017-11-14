@@ -6,8 +6,23 @@ using UnityEngine;
 public class PivotCollider : MonoBehaviour {
     [SerializeField]
     private GameObject parent;
-    private GameObject DetectConnectable;
+    private GameObject ConnectedObject;
+    
 
+    public GameObject connectedObject
+    {
+        get
+        {
+            return ConnectedObject;
+        }
+    }
+
+    public void SetValid() {
+        this.GetComponent<BoxCollider>().enabled = true;
+    }
+    public void SetInvalid() {
+        this.GetComponent<BoxCollider>().enabled = false;
+    }
 	// Use this for initialization
 	void Start () {
         parent.GetComponent<BlockBase>();
@@ -25,7 +40,7 @@ public class PivotCollider : MonoBehaviour {
             parent.GetComponent<BlockBase>().connectableObject = other.gameObject;
             parent.GetComponent<BlockBase>().IsConnectable = true;
             parent.GetComponent<BlockBase>().connectablePivot = this.gameObject;
-            DetectConnectable = other.gameObject;
+            ConnectedObject = other.gameObject;
             
         }
     }
@@ -34,13 +49,14 @@ public class PivotCollider : MonoBehaviour {
     {
         if (other.gameObject.tag == "MovableBlock")
         {
-            if (other.gameObject == DetectConnectable)
+            if (other.gameObject == ConnectedObject)
             {
                 if (parent.GetComponent<BlockBase>().connectablePivot == this.gameObject)
                 {
                     parent.GetComponent<BlockBase>().connectableObject = null;
                     parent.GetComponent<BlockBase>().IsConnectable = false;
-                    DetectConnectable = null;
+                    parent.GetComponent<BlockBase>().connectablePivot = null;
+                    ConnectedObject = null;
                 }
             }
         }
