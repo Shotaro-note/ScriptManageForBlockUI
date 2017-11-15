@@ -9,6 +9,7 @@ namespace Blocks
         public static BlockBase Instance;
         public bool IsGrabbed = false;
         public bool IsInGroup = false;
+        private Vector3 MyScale;
 
 
        // public List<GameObject> pivots = new List<GameObject>();//(pivot,connectedPivot)
@@ -28,11 +29,12 @@ namespace Blocks
 
         void Start()
         {
+            MyScale = this.gameObject.transform.localScale;
         }
 
         void Update()
         {
-           
+            this.gameObject.transform.localScale=MyScale;
         }
 
 

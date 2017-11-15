@@ -57,7 +57,15 @@ public class JointObjects : MonoBehaviour {
             else if (45 < z && z < 135) { z = 90; }
             else if (135 < z && z < 180) { z = 180; }
             //Debug.Log(x + "  " + y + "  " + z);
-           // block_a.transform.localRotation = Quaternion.Slerp(rotate_before, Quaternion.Euler(x, y, z), 1);
+            /*
+            if (parent != null) block_a.GetComponent<FixedJoint>().connectedBody = null;
+            block_a.transform.localRotation = Quaternion.Slerp(rotate_before, Quaternion.Euler(x, y, z), 1);
+            Vector3 move = pivot_b.transform.position - block_a.transform.position;
+            block_a.transform.position += move;
+            if (parent != null) block_a.GetComponent<FixedJoint>().connectedBody = parent.GetComponent<Rigidbody>();
+            if (parent != null) { block_a.transform.SetParent(parent.transform); }
+            else { block_a.transform.SetParent(null); }
+            */
             Quaternion rotate_after = Quaternion.Euler(x, y, z);
             Quaternion Rotation = rotate_after * Quaternion.Inverse(rotate_before);           
             Vector3 move = pivot_b.transform.position - block_a.transform.position;
@@ -100,11 +108,12 @@ public class JointObjects : MonoBehaviour {
                 block_a.transform.position += move;
                 block_a.transform.SetParent(null);
             }
+            
             /*ここに接続されたコンテンツ同士についてのEventが来る*/
-            /*
-            block_a.AddComponent<FixedJoint>().connectedBody = block_b.GetComponent<Rigidbody>();
-            block_b.AddComponent<FixedJoint>().connectedBody = block_a.GetComponent<Rigidbody>();
-            */
+            
+            //block_a.AddComponent<FixedJoint>().connectedBody = block_b.GetComponent<Rigidbody>();
+            //block_b.AddComponent<FixedJoint>().connectedBody = block_a.GetComponent<Rigidbody>();
+            
             Debug.Log(block_a.name+pivot_a.transform.parent.gameObject.name + " & " + block_b.name+pivot_b.transform.parent.gameObject.name + " are Conected!!");
 
             block_a.GetComponent<BlockBase>().JointInformation[pivot_a] = pivot_b;
@@ -115,8 +124,7 @@ public class JointObjects : MonoBehaviour {
             block_b.GetComponent<BlockBase>().ResetConnectable();
 
             #endregion
-            #region Make,Add to Group
-            
+            #region Make,Add to Group       
             if (block_a.transform.parent == null && block_b.transform.parent == null)
             {
                 GameObject prefab = Resources.Load<GameObject>("GroupManager");

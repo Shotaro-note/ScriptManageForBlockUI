@@ -59,7 +59,19 @@ public class Hand : MonoBehaviour
 
     void Update()
     {
-
+        if (OVRInput.GetDown(OVRInput.RawButton.A))
+        {
+            if (Selected_R != null && Selected_R.GetComponent<BlockBase>().IsInGroup == true){
+                GameObject group = Selected_R.transform.parent.gameObject;
+                state_r = STATE.NONE;
+                grabbedPoint_r = Vector3.zero;
+                canMove_R = false;
+                Selected_R = null;
+                this.gameObject.AddComponent<RemoveJoint>().RemoveAllJointInGroup(group);
+                Destroy(this.gameObject.GetComponent<RemoveJoint>());
+            }
+           
+        }
         #region Layer:Photo,D-Flipから取り出す時
 
         if (Selected_R != null && state_r == STATE.GRAB && canMove_R && Selected_R.layer == LayerMask.NameToLayer("Photo"))
@@ -173,7 +185,7 @@ public class Hand : MonoBehaviour
 
     public void OnGrabbed_R()
     {
-        
+        Debug.Log("Grab");
         LocalgrabbedPoint_r = Camera.main.transform.InverseTransformVector(Palm_r.transform.position);
 
         if (Selected_R != null)
@@ -191,6 +203,49 @@ public class Hand : MonoBehaviour
             if (Selected_R != null && Selected_R.tag == "MovableBlock")
             {
                 Selected_R.GetComponent<BlockBase>().IsGrabbed = true;
+                /*if(Selected_R.GetComponent<BlockBase>().IsInGroup == true)
+                {
+                    Selected_R.transform.parent.gameObject.GetComponent<GroupManager>().AddKeepDistance(Selected_R);
+                }*/
+                if (Selected_R.GetComponent<BlockBase>().IsInGroup == true)
+                {
+                    
+                    GameObject parent = Selected_R.transform.parent.gameObject;
+                    if (parent.GetComponent<GroupManager>().ChildIsGrabbed)
+                    {
+                        parent.GetComponent<GroupManager>().RemoveFromGroup(Selected_R);
+                        //ここで、Removeされて動かせるようになったオブジェクトが来る。
+                        OnGrabbed_R();//再帰呼び出しして、
+                    }
+                    else
+                    {
+                        parent.transform.SetParent(Palm_r.transform);
+                        parent.GetComponent<GroupManager>().ChildIsGrabbed = true;
+                    }
+                    //if (Palm_r.GetComponent<FixedJoint>())
+                    //{
+                    //    if (Palm_r.GetComponent<FixedJoint>().connectedBody == null) Palm_r.GetComponent<FixedJoint>().connectedBody = parent.GetComponent<Rigidbody>();
+                    //    else Palm_r.AddComponent<FixedJoint>().connectedBody = parent.GetComponent<Rigidbody>();
+                    //}
+                    //else
+                    //{
+                    //    Palm_r.AddComponent<FixedJoint>().connectedBody = parent.GetComponent<Rigidbody>();
+                    //}
+                }
+                else
+                {
+                    Selected_R.transform.SetParent(Palm_r.transform);
+                    //if (Palm_r.GetComponent<FixedJoint>())
+                    //{
+                    //    if (Palm_r.GetComponent<FixedJoint>().connectedBody == null) Palm_r.GetComponent<FixedJoint>().connectedBody = Selected_R.GetComponent<Rigidbody>();
+                    //    else Palm_r.AddComponent<FixedJoint>().connectedBody = Selected_R.GetComponent<Rigidbody>();
+                    //}
+                    //else
+                    //{
+                    //    Palm_r.AddComponent<FixedJoint>().connectedBody = Selected_R.GetComponent<Rigidbody>();
+                    //}
+                }
+                /*
                 if (Selected_R.GetComponent<FixedJoint>())
                 {
                     if (Selected_R.GetComponent<FixedJoint>().connectedBody == null) jointR = Selected_R.GetComponent<FixedJoint>().connectedBody = Palm_r.GetComponent<Rigidbody>();
@@ -200,7 +255,14 @@ public class Hand : MonoBehaviour
                 {
                     jointR = Selected_R.AddComponent<FixedJoint>().connectedBody = Palm_r.GetComponent<Rigidbody>();
                 }
+                */
             }
+            if (Palm_r.GetComponent<FixedJoint>())
+            {
+                Palm_r.GetComponent<FixedJoint>().connectedBody = Selected_R.GetComponent<Rigidbody>();
+
+            }
+
             //Debug.Log(jointR);
             canMove_R = true;
             HapticExample.PlaySE(true);
@@ -225,21 +287,52 @@ public class Hand : MonoBehaviour
 
             InitialPoint_l = Selected_L.transform.position;
             InitialAngle_l = Selected_L.transform.localEulerAngles;
-            
+
             if (Selected_L != null && Selected_L.tag == "MovableBlock")
             {
-                Selected_L.GetComponent<BlockBase>().IsGrabbed = true;
-                if (Selected_L.GetComponent<FixedJoint>())
+                if (Selected_L.GetComponent<BlockBase>().IsInGroup == true)
                 {
-                    if(Selected_L.GetComponent<FixedJoint>().connectedBody==null) jointL = Selected_L.GetComponent<FixedJoint>().connectedBody = Palm_l.GetComponent<Rigidbody>();
-                    else jointL = Selected_L.AddComponent<FixedJoint>().connectedBody = Palm_l.GetComponent<Rigidbody>();
+
+                    GameObject parent = Selected_L.transform.parent.gameObject;
+                    if (parent.GetComponent<GroupManager>().ChildIsGrabbed)
+                    {
+                        parent.GetComponent<GroupManager>().RemoveFromGroup(Selected_L);
+                        //ここで、Removeされて動かせるようになったオブジェクトが来る。
+                        OnGrabbed_L();//再帰呼び出しして、
+                    }
+                    else
+                    {
+                        parent.transform.SetParent(Palm_l.transform);
+                        parent.GetComponent<GroupManager>().ChildIsGrabbed = true;
+                    }
+
                 }
                 else
                 {
-                    jointL = Selected_L.AddComponent<FixedJoint>().connectedBody = Palm_l.GetComponent<Rigidbody>();
+                    Selected_L.transform.SetParent(Palm_l.transform);
+
                 }
+                if (Palm_l.GetComponent<FixedJoint>())
+                {
+                    Palm_l.GetComponent<FixedJoint>().connectedBody =  Selected_L.GetComponent<Rigidbody>();
+                    
+                }
+
+
+                //    Selected_L.GetComponent<BlockBase>().IsGrabbed = true;
+
+                //    if (Selected_L.GetComponent<FixedJoint>())
+                //    {
+                //        if(Selected_L.GetComponent<FixedJoint>().connectedBody==null) jointL = Selected_L.GetComponent<FixedJoint>().connectedBody = Palm_l.GetComponent<Rigidbody>();
+                //        else jointL = Selected_L.AddComponent<FixedJoint>().connectedBody = Palm_l.GetComponent<Rigidbody>();
+                //    }
+                //    else
+                //    {
+                //        jointL = Selected_L.AddComponent<FixedJoint>().connectedBody = Palm_l.GetComponent<Rigidbody>();
+                //    }
+                //}
             }
-            
+
             canMove_L = true;
             AudioSource.PlayClipAtPoint(grab_sound, Selected_L.transform.position, 0.5f);
             HapticExample.PlaySE(false);
@@ -252,6 +345,7 @@ public class Hand : MonoBehaviour
     }
     public void OnReleased_R()
     {
+        Debug.Log("Open");
         //HapticExample.StopStay(true);
         state_r = STATE.NONE;
         grabbedPoint_r = Vector3.zero;
@@ -260,6 +354,18 @@ public class Hand : MonoBehaviour
         if (Selected_R != null && Selected_R.tag == "MovableBlock")
         {
             Selected_R.GetComponent<BlockBase>().IsGrabbed = false;
+            if (Selected_R.GetComponent<BlockBase>().IsInGroup == true)
+            {
+                GameObject parent = Selected_R.transform.parent.gameObject;
+                parent.GetComponent<GroupManager>().ChildIsGrabbed = false;
+                parent.transform.SetParent(null);
+            }else Selected_R.transform.SetParent(null);
+            if (Palm_r.GetComponent<FixedJoint>())
+            {
+                Palm_r.GetComponent<FixedJoint>().connectedBody = null;             
+            }
+            
+            /*
             FixedJoint[] jointedItems = Selected_R.GetComponents<FixedJoint>();
             foreach (var item in jointedItems)
             {
@@ -268,7 +374,7 @@ public class Hand : MonoBehaviour
                     Destroy(item);
                     jointR = null;
                 }
-            }
+            }*/
             Selected_R.GetComponent<BlockBase>().AutoConnect();
             //Selected_R.GetComponent<BlockBase>().AutoMove();
             Selected_R = null;
@@ -286,15 +392,26 @@ public class Hand : MonoBehaviour
         if (Selected_L != null && Selected_L.tag == "MovableBlock")
         {
             Selected_L.GetComponent<BlockBase>().IsGrabbed = false;
-            FixedJoint[] jointedItems = Selected_L.GetComponents<FixedJoint>();
-            foreach(var item in jointedItems)
+            if (Selected_L.GetComponent<BlockBase>().IsInGroup == true)
             {
-                if (item.connectedBody == jointL)
-                {
-                    Destroy(item);
-                    jointL = null;
-                }               
+                GameObject parent = Selected_L.transform.parent.gameObject;
+                parent.GetComponent<GroupManager>().ChildIsGrabbed = false;
+                parent.transform.SetParent(null);
             }
+            else Selected_L.transform.SetParent(null);
+            if (Palm_l.GetComponent<FixedJoint>())
+            {
+                Palm_l.GetComponent<FixedJoint>().connectedBody = null;
+            }
+            //FixedJoint[] jointedItems = Selected_L.GetComponents<FixedJoint>();
+            //foreach(var item in jointedItems)
+            //{
+            //    if (item.connectedBody == jointL)
+            //    {
+            //        Destroy(item);
+            //        jointL = null;
+            //    }               
+            //}
             Selected_L.GetComponent<BlockBase>().AutoConnect();
             //Selected_L.GetComponent<BlockBase>().AutoMove();
             Selected_L = null;
