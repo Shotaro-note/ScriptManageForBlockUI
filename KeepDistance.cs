@@ -4,18 +4,14 @@ using UnityEngine;
 
 public class KeepDistance : MonoBehaviour {
     public GameObject Target;
-    private Vector3 Initial;
-    Quaternion rotate_before;
-    Quaternion rotate_after;
-    Quaternion Rotation;
 
+    /// <summary>
+    /// Rigidbodyがついてる親子だと都合が悪いので、
+    /// 親の動きを追従する空のGameObjectで対応
+    /// </summary>
     void Start()
-    {
-       
-            Initial = this.transform.localPosition - Target.transform.localPosition;
-            updatePosition();
-            Rotation = Quaternion.FromToRotation(this.transform.forward, Target.transform.position - this.transform.position);
-        
+    {                
+            updatePosition();       
         }
     void Update()
     {
@@ -24,9 +20,8 @@ public class KeepDistance : MonoBehaviour {
 
     void updatePosition()
     {
-        Vector3 pos = Target.transform.localPosition;
-        this.transform.localPosition = pos + Initial;
-        this.transform.rotation = Target.transform.rotation* Rotation;       
+        this.transform.position = Target.transform.position;
+        this.transform.rotation = Target.transform.rotation;   
     }
 
 

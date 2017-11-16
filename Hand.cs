@@ -185,7 +185,7 @@ public class Hand : MonoBehaviour
 
     public void OnGrabbed_R()
     {
-        Debug.Log("Grab");
+ 
         LocalgrabbedPoint_r = Camera.main.transform.InverseTransformVector(Palm_r.transform.position);
 
         if (Selected_R != null)
@@ -276,8 +276,7 @@ public class Hand : MonoBehaviour
         }
     }
     public void OnGrabbed_L()
-    {
-       
+    {     
         LocalgrabbedPoint_l = Camera.main.transform.InverseTransformVector(Palm_l.transform.position);
         if (Selected_L != null)
         {
@@ -345,7 +344,6 @@ public class Hand : MonoBehaviour
     }
     public void OnReleased_R()
     {
-        Debug.Log("Open");
         //HapticExample.StopStay(true);
         state_r = STATE.NONE;
         grabbedPoint_r = Vector3.zero;
