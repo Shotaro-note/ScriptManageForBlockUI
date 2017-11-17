@@ -257,11 +257,7 @@ public class Hand : MonoBehaviour
                 }
                 */
             }
-            if (Palm_r.GetComponent<FixedJoint>())
-            {
-                Palm_r.GetComponent<FixedJoint>().connectedBody = Selected_R.GetComponent<Rigidbody>();
-
-            }
+          
 
             //Debug.Log(jointR);
             canMove_R = true;
@@ -311,11 +307,7 @@ public class Hand : MonoBehaviour
                     Selected_L.transform.SetParent(Palm_l.transform);
 
                 }
-                if (Palm_l.GetComponent<FixedJoint>())
-                {
-                    Palm_l.GetComponent<FixedJoint>().connectedBody =  Selected_L.GetComponent<Rigidbody>();
-                    
-                }
+                
 
 
                 //    Selected_L.GetComponent<BlockBase>().IsGrabbed = true;
@@ -358,10 +350,7 @@ public class Hand : MonoBehaviour
                 parent.GetComponent<GroupManager>().ChildIsGrabbed = false;
                 parent.transform.SetParent(null);
             }else Selected_R.transform.SetParent(null);
-            if (Palm_r.GetComponent<FixedJoint>())
-            {
-                Palm_r.GetComponent<FixedJoint>().connectedBody = null;             
-            }
+          
             
             /*
             FixedJoint[] jointedItems = Selected_R.GetComponents<FixedJoint>();
@@ -397,10 +386,7 @@ public class Hand : MonoBehaviour
                 parent.transform.SetParent(null);
             }
             else Selected_L.transform.SetParent(null);
-            if (Palm_l.GetComponent<FixedJoint>())
-            {
-                Palm_l.GetComponent<FixedJoint>().connectedBody = null;
-            }
+          
             //FixedJoint[] jointedItems = Selected_L.GetComponents<FixedJoint>();
             //foreach(var item in jointedItems)
             //{

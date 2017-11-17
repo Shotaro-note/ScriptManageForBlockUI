@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PivotCollider : MonoBehaviour {
     [SerializeField]
-    private GameObject parent;
-    private GameObject ConnectedObject;
+    protected GameObject parent;
+    protected GameObject ConnectedObject;
     
 
     public GameObject connectedObject
@@ -25,7 +25,7 @@ public class PivotCollider : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        parent.GetComponent<BlockBase>();
+        //parent.GetComponent<BlockBase>();
 	}
 	
 	// Update is called once per frame
@@ -33,19 +33,18 @@ public class PivotCollider : MonoBehaviour {
 		
 	}
 
-    private void OnTriggerStay(Collider other)
+    public virtual void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "MovableBlock")
         {
             parent.GetComponent<BlockBase>().connectableObject = other.gameObject;
             parent.GetComponent<BlockBase>().IsConnectable = true;
             parent.GetComponent<BlockBase>().connectablePivot = this.gameObject;
-            ConnectedObject = other.gameObject;
-            
+            ConnectedObject = other.gameObject;           
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public virtual void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "MovableBlock")
         {

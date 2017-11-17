@@ -40,7 +40,11 @@ public class RemoveJoint : MonoBehaviour {
                     if (block_b.GetComponent<BlockBase>().IsGrabbed == false)
                     {
                         NewGroupList.Add(block_b);
+
                         Debug.Log(block_a.name + pivot_a.transform.parent.gameObject.name + " & " + block_b.name + pivot_b.transform.parent.gameObject.name + " 's connection is broken!!");
+                        block_a.GetComponent<BlockDataLogger>().BlockEventLogger(block_a, block_b, "Is Disconnected");
+                        block_b.GetComponent<BlockDataLogger>().BlockEventLogger(block_b, block_a, "Is Disconnected");
+
                         pivot_a.GetComponent<PivotCollider>().SetValid();
                         pivot_b.GetComponent<PivotCollider>().SetValid();
                         block_a.GetComponent<BlockBase>().JointInformation.Remove(pivot_a);
@@ -49,6 +53,9 @@ public class RemoveJoint : MonoBehaviour {
                     break;
                 default://とりあえず長ったらしくかいとく
                     Debug.Log(block_a.name + pivot_a.transform.parent.gameObject.name + " & " + block_b.name + pivot_b.transform.parent.gameObject.name + " 's connection is broken!!");
+                    block_a.GetComponent<BlockDataLogger>().BlockEventLogger(block_a, block_b, "Is Disconnected");
+                    block_b.GetComponent<BlockDataLogger>().BlockEventLogger(block_b, block_a, "Is Disconnected");
+
                     pivot_a.GetComponent<PivotCollider>().SetValid();
                     pivot_b.GetComponent<PivotCollider>().SetValid();
                     block_a.GetComponent<BlockBase>().JointInformation.Remove(pivot_a);

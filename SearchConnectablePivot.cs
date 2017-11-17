@@ -14,7 +14,11 @@ namespace Blocks
         private GameObject piv_b;
         // Use this for initialization
 
-
+            /// <summary>
+            /// 過去の産物。そのうち消す
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
         public void SetTarget(GameObject a, GameObject b)
         {
             connectableSurface_a = null;
@@ -50,7 +54,7 @@ namespace Blocks
                 piv_a.GetComponent<PivotBase>().isConnected = true;
                 piv_b=connectableSurface_b.transform.GetChild(0).gameObject;
                 piv_b.GetComponent<PivotBase>().isConnected = true;
-                this.gameObject.AddComponent<JointObjects>().Joint(piv_a, piv_b);
+                this.gameObject.AddComponent<JointObjects>().Joint(piv_a, piv_b,piv_b.transform);
 
                 Debug.Log(connectableSurface_a + "+" + connectableSurface_b);
                 Destroy(this.GetComponent<SearchConnectablePivot>());

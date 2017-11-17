@@ -6,6 +6,7 @@ namespace Blocks
 {
     public class BlockBase : MonoBehaviour
     {
+        
         public static BlockBase Instance;
         public bool IsGrabbed = false;
         public bool IsInGroup = false;
@@ -40,200 +41,205 @@ namespace Blocks
 
         void OnTriggerStay(Collider col)
         {
-            
-            if (col.gameObject.name == "Detector_R")
+            if (this.gameObject.tag == "MovableBlock")
             {
-                Hand.Instance.SetSelectedObject(_object, true);
-                
-            }
-            else if (col.gameObject.name == "Detector_L")
-            {
-                Hand.Instance.SetSelectedObject(_object, false);
-                
-            }
-            /*if(col.gameObject.tag == "MovableBlock")
-            {
-                if (col.gameObject.GetComponent<BlockBase>())
+                if (col.gameObject.name == "Detector_R")
                 {
-                    connectableObject = col.gameObject;
-                }
-            }*/
-            #region For connecting to MovableBlock & connector
-            /*
-            else if (col.gameObject.tag == "MovableBlock" || col.gameObject.tag == "Connector")
-            {
-                if (GameManager.Instance.status == GAMESTATE.IN_WORKS)
-                {
-                    var connector = col.gameObject.GetComponent<ConnectorController>();
-                    if (connector)
-                    {
-                        if (currentConnector == null)
-                        {
-                            if (connector.CanAttach())
-                            {
-                                connector.CloseTo(this.gameObject);
-                                currentConnector = col.gameObject;
-                                HighLight(col.gameObject);
-                            }
-                        }
-                        else
-                        {
-                            if (currentConnector != col.gameObject)
-                            {
-                                if (connector.CanAttach())
-                                {
-                                    currentConnector.GetComponent<ConnectorController>().Away(gameObject);
-                                    connector.CloseTo(this.gameObject);
-                                    currentConnector = col.gameObject;
-                                    HighLight(col.gameObject);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Error");
-                    }
-                }
-                else
-                {
-                    var connector = col.gameObject.GetComponent<ConntectorController>();
-                    if (connector)
-                    {
-                        if (currentConnector == null)
-                        {
-                            if (connector.CanAttach())
-                            {
-                                connector.CloseTo(this.gameObject);
-                                currentConnector = col.gameObject;
-                                HighLight(col.gameObject);
-                            }
-                        }
-                        else
-                        {
-                            if (currentConnector != col.gameObject)
-                            {
-                                if (connector.CanAttach())
-                                {
-                                    currentConnector.GetComponent<ConntectorController>().Away(gameObject);
-                                    connector.CloseTo(this.gameObject);
-                                    currentConnector = col.gameObject;
-                                    HighLight(col.gameObject);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Error");
-                    }
-                }
-            }
-            */
-            #endregion
-            /*
-            if (col.gameObject.layer == LayerMask.NameToLayer("OculusTouch"))
-            {
-            }
-            else if (col.gameObject.layer == LayerMask.NameToLayer("Leapmotion"))
-            {
+                    Hand.Instance.SetSelectedObject(_object, true);
 
-            }*/
+                }
+                else if (col.gameObject.name == "Detector_L")
+                {
+                    Hand.Instance.SetSelectedObject(_object, false);
+
+                }
+                /*if(col.gameObject.tag == "MovableBlock")
+                {
+                    if (col.gameObject.GetComponent<BlockBase>())
+                    {
+                        connectableObject = col.gameObject;
+                    }
+                }*/
+                #region For connecting to MovableBlock & connector
+                /*
+                else if (col.gameObject.tag == "MovableBlock" || col.gameObject.tag == "Connector")
+                {
+                    if (GameManager.Instance.status == GAMESTATE.IN_WORKS)
+                    {
+                        var connector = col.gameObject.GetComponent<ConnectorController>();
+                        if (connector)
+                        {
+                            if (currentConnector == null)
+                            {
+                                if (connector.CanAttach())
+                                {
+                                    connector.CloseTo(this.gameObject);
+                                    currentConnector = col.gameObject;
+                                    HighLight(col.gameObject);
+                                }
+                            }
+                            else
+                            {
+                                if (currentConnector != col.gameObject)
+                                {
+                                    if (connector.CanAttach())
+                                    {
+                                        currentConnector.GetComponent<ConnectorController>().Away(gameObject);
+                                        connector.CloseTo(this.gameObject);
+                                        currentConnector = col.gameObject;
+                                        HighLight(col.gameObject);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Error");
+                        }
+                    }
+                    else
+                    {
+                        var connector = col.gameObject.GetComponent<ConntectorController>();
+                        if (connector)
+                        {
+                            if (currentConnector == null)
+                            {
+                                if (connector.CanAttach())
+                                {
+                                    connector.CloseTo(this.gameObject);
+                                    currentConnector = col.gameObject;
+                                    HighLight(col.gameObject);
+                                }
+                            }
+                            else
+                            {
+                                if (currentConnector != col.gameObject)
+                                {
+                                    if (connector.CanAttach())
+                                    {
+                                        currentConnector.GetComponent<ConntectorController>().Away(gameObject);
+                                        connector.CloseTo(this.gameObject);
+                                        currentConnector = col.gameObject;
+                                        HighLight(col.gameObject);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Error");
+                        }
+                    }
+                }
+                */
+                #endregion
+                /*
+                if (col.gameObject.layer == LayerMask.NameToLayer("OculusTouch"))
+                {
+                }
+                else if (col.gameObject.layer == LayerMask.NameToLayer("Leapmotion"))
+                {
+
+                }*/
+            }
 
         }
 
         void OnTriggerExit(Collider col)
         {
-
-            if (col.gameObject.name == "Detector_R")
+            if (this.gameObject.tag == "MovableBlock")
             {
-                Hand.Instance.CancelSelectedObject(_object, true);
-            }
-            else if (col.gameObject.name == "Detector_L")
-            {
-                Hand.Instance.CancelSelectedObject(_object, false);
-            }
-            /*if (col.gameObject == connectableObject)
-            {
-                connectableObject = null;
-            }*/
-            #region for detaching from connector
-            /*
-            else if (col.gameObject.tag == "Connector")
-            {
-                if (GameManager.Instance.status == GAMESTATE.IN_WORKS)
+                if (col.gameObject.name == "Detector_R")
                 {
-                    var conn = col.gameObject.GetComponent<ConnectorController>();
-                    if (currentConnector == col.gameObject)
-                    {
-                        currentConnector = null;
-
-                    }
+                    Hand.Instance.CancelSelectedObject(_object, true);
                 }
-                else
+                else if (col.gameObject.name == "Detector_L")
                 {
-                    var conn = col.gameObject.GetComponent<ConntectorController>();
-                    if (currentConnector == col.gameObject)
-                    {
-                        currentConnector = null;
-
-                    }
-                    conn.Remove(this.gameObject);
+                    Hand.Instance.CancelSelectedObject(_object, false);
                 }
-                //conn.Away(gameObject);
-                //if (conn.AttachedObject == gameObject)
-                //{
-
-                //    if(!conn.CanAttach())
-                //    {
-                //        conn.Remove(gameObject);
-                //    }
-
-                //}
-            }
-            else if (col.gameObject.tag == "MovableBlock")
-            {
-                if (GameManager.Instance.status == GAMESTATE.IN_WORKS)
+                /*if (col.gameObject == connectableObject)
                 {
-                    var conn = col.gameObject.GetComponent<ConnectorController>();
-                    if (currentConnector == col.gameObject)
-                    {
-                        currentConnector = null;
-
-                    }
-                    //  conn.Remove(gameObject);
-                }
-                else
+                    connectableObject = null;
+                }*/
+                #region for detaching from connector
+                /*
+                else if (col.gameObject.tag == "Connector")
                 {
-                    var conn = col.gameObject.GetComponent<ConntectorController>();
-                    if (currentConnector == col.gameObject)
+                    if (GameManager.Instance.status == GAMESTATE.IN_WORKS)
                     {
-                        currentConnector = null;
+                        var conn = col.gameObject.GetComponent<ConnectorController>();
+                        if (currentConnector == col.gameObject)
+                        {
+                            currentConnector = null;
 
+                        }
                     }
-                    conn.Remove(this.gameObject);
+                    else
+                    {
+                        var conn = col.gameObject.GetComponent<ConntectorController>();
+                        if (currentConnector == col.gameObject)
+                        {
+                            currentConnector = null;
+
+                        }
+                        conn.Remove(this.gameObject);
+                    }
+                    //conn.Away(gameObject);
+                    //if (conn.AttachedObject == gameObject)
+                    //{
+
+                    //    if(!conn.CanAttach())
+                    //    {
+                    //        conn.Remove(gameObject);
+                    //    }
+
+                    //}
                 }
+                else if (col.gameObject.tag == "MovableBlock")
+                {
+                    if (GameManager.Instance.status == GAMESTATE.IN_WORKS)
+                    {
+                        var conn = col.gameObject.GetComponent<ConnectorController>();
+                        if (currentConnector == col.gameObject)
+                        {
+                            currentConnector = null;
 
-            }
-            */
-            #endregion
+                        }
+                        //  conn.Remove(gameObject);
+                    }
+                    else
+                    {
+                        var conn = col.gameObject.GetComponent<ConntectorController>();
+                        if (currentConnector == col.gameObject)
+                        {
+                            currentConnector = null;
 
-            if (col.gameObject.layer == LayerMask.NameToLayer("OculusTouch"))
-            {
+                        }
+                        conn.Remove(this.gameObject);
+                    }
 
-            }
-            else if (col.gameObject.layer == LayerMask.NameToLayer("Leapmotion"))
-            {
+                }
+                */
+                #endregion
 
+                if (col.gameObject.layer == LayerMask.NameToLayer("OculusTouch"))
+                {
+
+                }
+                else if (col.gameObject.layer == LayerMask.NameToLayer("Leapmotion"))
+                {
+
+                }
             }
         }
 
        
-        public void AutoConnect()
+        public virtual void AutoConnect()
         {
-            if (connectableObject != null && connectablePivot != null)
+            if (connectableObject != null && connectablePivot != null&&connectableObject.tag=="MovableBlock")
             {
-                this.gameObject.AddComponent<JointObjects>().Joint(connectablePivot, connectableObject);
+
+                this.gameObject.AddComponent<JointObjects>().Joint(connectablePivot, connectableObject,connectableObject.transform);
                 Destroy(this.gameObject.GetComponent<JointObjects>());        
             }
         }
