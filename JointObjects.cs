@@ -123,6 +123,11 @@ public class JointObjects : MonoBehaviour
                 AttendGroup(block_a, block_b);
             }
 
+            //接続されたエフェクトの発生
+            if (pivot_a.transform.parent.GetComponent<ParticleRaiser>())
+            {
+                pivot_a.transform.parent.GetComponent<ParticleRaiser>().RaiseParticle();
+            }
 
         }
     }

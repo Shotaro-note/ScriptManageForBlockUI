@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Blocks;
 
+[RequireComponent(typeof(ParticleRaiser))]
 public class GroupManager : MonoBehaviour
 {
+    
+    
     public List<GameObject> Member = new List<GameObject>();
     public bool ChildIsGrabbed = false;
     private float time = 0;
@@ -192,7 +195,10 @@ public class GroupManager : MonoBehaviour
             Destroy(list[i].GetComponent<FixedJoint>());
             if (list[i] != block)
             {
-                list[i].transform.position += new Vector3(Random.Range(-.3f, .3f), Random.Range(-.3f, .3f), Random.Range(-.3f, .3f));//Itweenほしい
+                list[i].transform.position += new Vector3(Random.Range(-.3f, .3f), Random.Range(-.3f, .3f), Random.Range(-.3f, .3f));
+                //エフェクト追加用
+                this.GetComponent<ParticleRaiser>().RaiseParticle(list[i].transform);
+                
             }
             this.Member.Remove(list[i]);
         }
