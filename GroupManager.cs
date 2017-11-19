@@ -6,8 +6,7 @@ using Blocks;
 [RequireComponent(typeof(ParticleRaiser))]
 public class GroupManager : MonoBehaviour
 {
-    
-    
+      
     public List<GameObject> Member = new List<GameObject>();
     public bool ChildIsGrabbed = false;
     private float time = 0;
