@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Blocks;
 
-public class AffordanceToJoint : MonoBehaviour {
+public class PromptToJoint : MonoBehaviour {
     [SerializeField]
     private List<GameObject> blockInScene;
     [SerializeField]
     private GameObject particlePromptConnect;
     [SerializeField]
     private GameObject particlePromptGrab;
-    private float time=0f;
+    public float time=0f;
 
 	// Use this for initialization
 	void Start () {
@@ -21,19 +21,16 @@ public class AffordanceToJoint : MonoBehaviour {
     /// </summary>
 	// Update is called once per frame
 	void Update () {
-        if (time < 1f)
-        {
-            PromptGrab();
-            time = 1f;
-        }
+      
         if (time > 15f)
         {
+            PromptGrab();          
             PromptConnect();
             time = 0f;
         }
         else
         {
-            time = Time.deltaTime;
+            time += Time.deltaTime;
         }
 		
 	}
@@ -46,8 +43,9 @@ public class AffordanceToJoint : MonoBehaviour {
             {
                 if (block.GetComponent<BlockBase>().IsInGroup == false && block.GetComponent<BlockBase>().IsGrabbed == false)
                 {
-                    GameObject promptParticle = Instantiate(particlePromptConnect, block.transform.parent.transform.position, block.transform.parent.transform.rotation);
-                    Destroy(promptParticle, 5f);
+                    Debug.Log("PromptGrab");
+                    GameObject promptParticle = Instantiate(particlePromptGrab, block.transform.position, block.transform.rotation);
+                    Destroy(promptParticle, 3f);
 
                 }
             }
@@ -57,11 +55,13 @@ public class AffordanceToJoint : MonoBehaviour {
     {
         foreach(GameObject block in blockInScene)
         {
-            foreach(GameObject pivot in block.GetComponent<BlockBase>().surfaceWithPivots)
+            foreach(GameObject surface in block.GetComponent<BlockBase>().surfaceWithPivots)
             {
+                Debug.Log("promptConnect");
+                GameObject pivot = surface.transform.GetChild(0).gameObject;
                 if(pivot.GetComponent<BoxCollider>().enabled == true){
-                    GameObject promptParticle = Instantiate(particlePromptConnect, pivot.transform.parent.transform.position, pivot.transform.parent.transform.rotation);
-                    Destroy(promptParticle, 5f);
+                    GameObject promptParticle = Instantiate(particlePromptConnect, pivot.transform.position, pivot.transform.rotation);
+                    Destroy(promptParticle, 3f);
                 }
             }
         }

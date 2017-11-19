@@ -222,6 +222,7 @@ public class GroupManager : MonoBehaviour
     {
         for (int i = Member.Count - 1; i >= 0; i--)
         {
+            this.GetComponent<ParticleRaiser>().RaiseParticle(Member[i].transform);
             Member[i].transform.SetParent(null);
             Member[i].GetComponent<BlockBase>().IsInGroup = false;
             Destroy(Member[i].GetComponent<FixedJoint>().connectedBody);

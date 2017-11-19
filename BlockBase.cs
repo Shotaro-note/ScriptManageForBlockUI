@@ -12,7 +12,6 @@ namespace Blocks
         public bool IsInGroup = false;
         private Vector3 MyScale;
 
-
        // public List<GameObject> pivots = new List<GameObject>();//(pivot,connectedPivot)
         public List<GameObject> surfaceWithPivots = new List<GameObject>();
         public Dictionary<GameObject, GameObject> JointInformation = new Dictionary<GameObject, GameObject>();
