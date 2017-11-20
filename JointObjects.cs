@@ -166,7 +166,7 @@ public class JointObjects : MonoBehaviour
             go.GetComponent<GroupManager>().MergeGroup(block_b.transform.parent.gameObject);
             Debug.Log("Merge");
         }
-        else Debug.Log("error");
+        else Debug.Log("OtherPattern");
         #endregion
     }
 }

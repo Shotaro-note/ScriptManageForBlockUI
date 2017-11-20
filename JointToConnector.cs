@@ -18,6 +18,7 @@ public class JointToConnector : JointObjects {
         base.Joint(pivot_a, block_b,target);
         if (block_b.tag == "Connector")
         {
+            
             Debug.Log("JointのOverride呼び出されました～～");
         }
     }

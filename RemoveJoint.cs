@@ -14,7 +14,29 @@ public class RemoveJoint : MonoBehaviour {
 	void Update () {
 		
 	}
+    //block_aを解除するときに、Pivotを回復
+    public void SimpleRemove(GameObject block_a)
+    {
+        GameObject pivot_a;
+        GameObject pivot_b;
+        List<GameObject> ConnectionList = new List<GameObject>(block_a.GetComponent<BlockBase>().JointInformation.Keys);
+        foreach (GameObject pivot in ConnectionList)
+        {
+            pivot_a = pivot;
+            pivot_b = block_a.GetComponent<BlockBase>().JointInformation[pivot];
+            GameObject block_b = pivot_b.transform.parent.transform.parent.gameObject;
+            if (block_b == this.gameObject)
+            {
+                //block_a.GetComponent<BlockDataLogger>().BlockEventLogger(block_a, block_b, "Is Disconnected");
+                //block_b.GetComponent<BlockDataLogger>().BlockEventLogger(block_b, block_a, "Is Disconnected");
 
+                pivot_a.GetComponent<PivotCollider>().SetValid();
+                pivot_b.GetComponent<PivotCollider>().SetValid();
+                block_a.GetComponent<BlockBase>().JointInformation.Remove(pivot_a);
+                block_b.GetComponent<BlockBase>().JointInformation.Remove(pivot_b);
+            }
+        }
+    }
     //block_aを解除するときに、一緒に解除されるブロック確定＆Pivotを回復
     public List<GameObject> Remove(GameObject block_a)
     {
