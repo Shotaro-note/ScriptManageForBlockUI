@@ -6,7 +6,7 @@ namespace Blocks
 {
     public class BlockBase : MonoBehaviour
     {
-        
+        public BlockType type;
         public static BlockBase Instance;
         public bool IsGrabbed = false;
         public bool IsInGroup = false;
@@ -30,6 +30,7 @@ namespace Blocks
         void Start()
         {
             MyScale = this.gameObject.transform.localScale;
+           
         }
 
         void Update()
@@ -52,7 +53,7 @@ namespace Blocks
                     Hand.Instance.SetSelectedObject(_object, false);
 
                 }
-                /*if(col.gameObject.tag == "MovableBlock")
+                /*if(col.gameObject.tag == "MovableBlock*")
                 {
                     if (col.gameObject.GetComponent<BlockBase>())
                     {
@@ -241,6 +242,13 @@ namespace Blocks
                 this.gameObject.AddComponent<JointObjects>().Joint(connectablePivot, connectableObject,connectableObject.transform);
                 Destroy(this.gameObject.GetComponent<JointObjects>());        
             }
+            else if (connectableObject != null && connectablePivot != null && connectableObject.tag == "Connector")
+            {
+                GameObject pivot_o = connectableObject.GetComponent<BlockBase>().connectablePivot;
+                GameObject target = pivot_o.transform.parent.transform.GetChild(1).gameObject;
+                this.gameObject.AddComponent<JointToConnector>().Joint(connectablePivot, connectableObject, target.transform);
+                Destroy(this.gameObject.GetComponent<JointToConnector>());
+            }
         }
 
         public void ResetConnectable()
@@ -275,6 +283,12 @@ namespace Blocks
 
         }
 
+        public enum BlockType
+        {
+            Normal,
+            Functional,
+            Big
+        }
 
     }
 }

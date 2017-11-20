@@ -57,8 +57,8 @@ public class JointObjects : MonoBehaviour
             else if (135 < z && z < 180) { z = 180; }
 
             Quaternion rotate_after = Quaternion.Euler(x, y, z);
-            Quaternion Rotation = rotate_after * Quaternion.Inverse(rotate_before);
-            Vector3 move = pivot_b.transform.position - block_a.transform.position;
+            //Vector3 move = pivot_b.transform.position - block_a.transform.position;
+
 
             if (parent != null)
             {
@@ -74,8 +74,11 @@ public class JointObjects : MonoBehaviour
                     }
                 }
                 block_a.GetComponent<FixedJoint>().connectedBody = null;
-                block_a.transform.position += move;
+               
+                Quaternion Rotation = rotate_after * Quaternion.Inverse(rotate_before);
                 block_a.transform.localRotation = Rotation * block_a.transform.localRotation;
+                Vector3 move = pivot_b.transform.parent.transform.position - pivot_a.transform.parent.transform.position;
+                block_a.transform.position += move;                
                 block_a.GetComponent<FixedJoint>().connectedBody = parent.GetComponent<Rigidbody>();
                 for (int i = 0; i < count; i++)
                 {
@@ -93,7 +96,9 @@ public class JointObjects : MonoBehaviour
             }
             else
             {
+                Quaternion Rotation = rotate_after * Quaternion.Inverse(rotate_before);
                 block_a.transform.localRotation = Rotation * block_a.transform.localRotation;
+                Vector3 move = pivot_b.transform.parent.transform.position - pivot_a.transform.parent.transform.position;
                 block_a.transform.position += move;
                 block_a.transform.SetParent(null);
             }
@@ -105,8 +110,6 @@ public class JointObjects : MonoBehaviour
             /*Test用本番はアプリケーションによって付与*/
             if(block_a.GetComponent<BlockDataLogger>())block_a.GetComponent<BlockDataLogger>().BlockEventLogger(block_a, block_b, "Is Connected");
             if(block_b.GetComponent<BlockDataLogger>())block_b.GetComponent<BlockDataLogger>().BlockEventLogger(block_b, block_a, "Is Connected");
-
-
 
             block_a.GetComponent<BlockBase>().JointInformation[pivot_a] = pivot_b;
             block_b.GetComponent<BlockBase>().JointInformation[pivot_b] = pivot_a;
@@ -132,6 +135,7 @@ public class JointObjects : MonoBehaviour
         }
     }
 
+    
     public void AttendGroup(GameObject block_a, GameObject block_b)
     {
         #region Make,Add to Group       
