@@ -10,35 +10,42 @@ public class FunctionManager : MonoBehaviour {
     public float value0;
 	// Use this for initialization
 	void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	public virtual void Update () {
+        //FunctionManagerのデバック用
+       
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.transform.localScale = new Vector3(.01f, .01f, .01f);
+        cube.transform.position = Vector3.one;
+        cube.transform.rotation = Quaternion.EulerAngles(30, 45, 90);
+    }
+
+    // Update is called once per frame
+    public virtual void Update () {
 		
 	}
 
-    public void CheckFunction(GameObject go, Transform tr, float value)
+    public void CheckFunction(GameObject go)
     {
-        if (function != functionList.None)
+        if (go.GetComponent<FunctionalBlock>().function != functionList.None)
         {
-            go0 = go;
-            tr0 = tr;
-            value0 = value;
-            this.gameObject.AddComponent(Type.GetType("F" + function.ToString()));
-            
+            function = go.GetComponent<FunctionalBlock>().function;         
+            go.AddComponent(Type.GetType("F" + function.ToString()));           
         }
-    }
-
-    public virtual void ExecuteFunction(GameObject go, Transform tr, float value) {
-        Debug.Log("Manager_function");
 
     }
 
+    public virtual void ExecuteFunction(GameObject go) {
+        if (go.GetComponent<FunctionalBlock>().function != functionList.None)
+        {
+            function = go.GetComponent<FunctionalBlock>().function;
+
+        }
+
+    }
     public enum functionList
     {
         None,
-        Move
-        
+        Move,
+        Analyze,
+        CastleConstruct    
     }
 }

@@ -63,7 +63,7 @@ public class GroupManager : MonoBehaviour
                         if (block_b == block.GetComponent<BlockBase>().connectableObject)
                         {
                             block.AddComponent<JointObjects>().Joint(block.GetComponent<BlockBase>().connectablePivot, block.GetComponent<BlockBase>().connectableObject, block.GetComponent<BlockBase>().connectableObject.transform);
-                            Destroy(this.gameObject.GetComponent<JointObjects>());
+                            Destroy(block.GetComponent<JointObjects>());
                         }
                     }
                 }

@@ -173,10 +173,10 @@ public class Hand : MonoBehaviour
                 Selected_L = null;
             }
         }
-        var child = go.GetComponent<PhotoChild>();
+        /*var child = go.GetComponent<PhotoChild>();
         if (child)
             child.ResetColor();
-
+*/
     }
 
     #region description

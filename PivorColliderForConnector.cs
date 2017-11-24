@@ -17,7 +17,8 @@ public class PivorColliderForConnector : PivotCollider {
     public override void OnTriggerStay(Collider other)
     {
         base.OnTriggerStay(other);
-        if (other.gameObject.GetComponent<BlockBase>().connectableObject == this.gameObject)
+        
+        if (other.gameObject.tag=="MovableBlock"&&other.gameObject.GetComponent<BlockBase>().connectableObject == this.gameObject)
         {
             if (other.transform.parent != null)
             {
@@ -38,15 +39,18 @@ public class PivorColliderForConnector : PivotCollider {
         if (other.gameObject.tag == "MovableBlock")
         {
             if (parent.GetComponent<BlockBase>().connectablePivot == this.gameObject) parent.GetComponent<BlockBase>().ResetConnectable();
-            for(int i = this.GetComponent<ConnectorBase>().ConnectedBlocks.Count; i>= 0; i--) { 
-            
-                if (other.gameObject == this.GetComponent<ConnectorBase>().ConnectedBlocks[i])
+          
+            for (int i = parent.GetComponent<ConnectorBase>().ConnectedBlocks.Count-1; i >= 0; i--)
+            {
+                Debug.Log("Removed");
+                if (other.gameObject == parent.GetComponent<ConnectorBase>().ConnectedBlocks[i])
                 {
+                    parent.GetComponent<ConnectorBase>().ConnectedBlocks.RemoveAt(i);
                     parent.AddComponent<RemoveJoint>().SimpleRemove(other.gameObject);
                     Destroy(parent.GetComponent<RemoveJoint>());
-                    this.GetComponent<ConnectorBase>().ConnectedBlocks.RemoveAt(i);
+                    parent.GetComponent<ConnectorBase>().ConnectedBlocks.RemoveAt(i);
                 }
-            }          
+            }                      
         }
     }
 }

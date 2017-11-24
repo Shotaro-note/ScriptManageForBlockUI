@@ -16,10 +16,7 @@ public class JointToConnector : JointObjects {
     public override void Joint(GameObject pivot_a, GameObject block_b,Transform target)
     {
         base.Joint(pivot_a, block_b,target);
-        if (block_b.tag == "Connector")
-        {
-            
-            Debug.Log("JointのOverride呼び出されました～～");
-        }
+        block_b.GetComponent<ConnectorBase>().ConnectedBlocks.Add(pivot_a.transform.parent.transform.parent.gameObject);            
+        
     }
 }

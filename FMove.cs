@@ -7,15 +7,23 @@ public class FMove :MonoBehaviour {
     Vector3 InitialPosition;
     Quaternion InitialRotation;
     GameObject block;
-    Transform target;
-    float time;
+    //Transform target;
+    Vector3 a;
+    Vector3 b;
+    float time=5f;
     // Use this for initialization
     void Start () {
-        block= this.GetComponent<FunctionManager>().go0;
-        target= this.GetComponent<FunctionManager>().tr0;
-        time = this.GetComponent<FunctionManager>().value0;
+        block= this.gameObject;
+       // target= this.GetComponent<FunctionManager>().tr0;
+        time = 3f;
         InitialPosition = block.transform.position;
         InitialRotation = block.transform.rotation;
+        a = block.transform.GetChild(2).transform.position;
+        b = a - block.transform.position;
+        if (block.transform.parent != null)
+        {
+            block = this.transform.parent.gameObject;
+        }
         Debug.Log("FMobe function");
     }
 	
@@ -23,14 +31,16 @@ public class FMove :MonoBehaviour {
 	void Update () {
         if (elapsedTime < 1f)
         {
-            block.transform.rotation = Quaternion.Lerp(InitialRotation, target.rotation, elapsedTime);
-            block.transform.position = Vector3.Lerp(InitialPosition, target.position, elapsedTime);
-            elapsedTime += (Time.deltaTime / time);
-
+            if (block!=null)
+            {
+               // block.transform.rotation = Quaternion.Lerp(InitialRotation, target.rotation, elapsedTime);
+                block.transform.position += b/time;
+                elapsedTime += (Time.deltaTime / time);
+            }
         }
         if (elapsedTime > 1f)
         {
-            block.transform.position = target.position;
+            //block.transform.position = target.position;
             Debug.Log("Bye!");
             Destroy(this);
         }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class JointWithFunctional : JointObjects {
-
+    GameObject fManager;//functionManager,gameObject
+    FunctionManager functionManager;//FunctionManager,script
 	// Use this for initialization
 	void Start () {
 		
@@ -13,17 +14,22 @@ public class JointWithFunctional : JointObjects {
 	void Update () {
 		
 	}
+    /// <summary>
+    /// pivot_aが自分、block_bが接続先、Aのほうがfunction持っている側
+    /// </summary>
+    /// <param name="pivot_a"></param>
+    /// <param name="block_b"></param>
+    /// <param name="target"></param>
     public override void Joint(GameObject pivot_a, GameObject block_b, Transform target)
     {
         base.Joint(pivot_a, block_b, target);
         GameObject block = pivot_a.transform.parent.transform.parent.gameObject;
 
-        ///FunctionManagerのデバック用
-        ///
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cube.transform.localScale = new Vector3(.01f, .01f, .01f);
-        cube.transform.position = Vector3.one;
-        cube.transform.rotation = Quaternion.EulerAngles(30, 45, 90);
-        block.GetComponent<FunctionManager>().CheckFunction(block.transform.parent.gameObject, cube.transform, 10f);
+        
+        fManager = GameObject.Find("FunctionManager");
+        functionManager = fManager.GetComponent<FunctionManager>();
+        functionManager.CheckFunction(block);
+        
+        //block.GetComponent<FunctionManager>().CheckFunction(block.transform.parent.gameObject, cube.transform, 10f);
     }
 }

@@ -21,5 +21,6 @@ public class ConnectorBase : MonoBehaviour {
         GameObject connectableObject = this.GetComponent<BlockBase>().connectableObject;
         GameObject connectablePivt = this.GetComponent<BlockBase>().connectablePivot;
         bool isConnectable = this.GetComponent<BlockBase>().IsConnectable;
+        
     }
 }

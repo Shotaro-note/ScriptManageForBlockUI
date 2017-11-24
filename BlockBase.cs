@@ -287,7 +287,8 @@ namespace Blocks
         {
             Normal,
             Functional,
-            Big
+            Big,
+            Structure
         }
 
     }
