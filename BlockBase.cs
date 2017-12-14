@@ -288,7 +288,8 @@ namespace Blocks
             Normal,
             Functional,
             Big,
-            Structure
+            Structure,
+            Airplane
         }
 
     }

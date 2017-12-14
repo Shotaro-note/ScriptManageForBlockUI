@@ -127,10 +127,10 @@ public class JointObjects : MonoBehaviour
             }
 
             //接続されたエフェクトの発生
-            if (pivot_a.transform.parent.GetComponent<ParticleRaiser>())
-            {
-                pivot_a.transform.parent.GetComponent<ParticleRaiser>().RaiseParticle();
-            }
+            //if (pivot_a.transform.parent.GetComponent<ParticleRaiser>())
+            //{
+            //    pivot_a.transform.parent.GetComponent<ParticleRaiser>().RaiseParticle();
+            //}
 
         }
     }
