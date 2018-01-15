@@ -1,0 +1,67 @@
+\documentclass[12pt,oneside]{ise-thesis} % 片面印刷の場合
+%\documentclass[12pt,twoside]{ise-thesis} % 両面印刷の場合
+
+\thesis{\bachelor}
+
+\title{タイトル}
+
+\author{市川　将太郎}
+
+\supervisor{北村　喜文　教授}
+
+\deadline{平成30年月日}
+
+\abstract{
+\input{Abstract.tex}
+}
+
+\keyword{}
+
+% 行間調整
+\renewcommand{\baselinestretch}{1.15}
+\sectionstretch{1.0}		% セクション見出し前後の行間
+\liststretch{1.0}		% 箇条書き環境の行間
+
+\usepackage{subfig}
+\usepackage{url}
+
+
+% ----コンパイル速くするため
+\newif\iffigure
+\figurefalse
+%\figuretrue
+%----
+
+\bibliographystyle{junsrt} % 引用順
+
+\begin{document}
+	
+\coverpage
+	
+\tableofcontents
+	
+\body
+
+
+\input{Introduction.tex}
+\clearpage
+
+\input{RelatedWork.tex}
+\clearpage
+\input{UIDesign.tex}
+\input{Implementation.tex}
+\clearpage
+\input{Applications.tex}
+\clearpage
+\input{UserStudy.tex}
+\clearpage
+\input{Discussion_FutureWork_Conclusion.tex}
+\clearpage
+
+\acknowledgement
+
+\nocite{*}
+\bibliography{MyReference.bib}
+	
+\end{document}
+
